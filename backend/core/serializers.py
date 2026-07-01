@@ -4,3 +4,14 @@ from rest_fromework import serializers
 from django.contrib.auth.models import User
 from.models import Employee, Task
 #----------------
+  # UserMiniSerializer
+#-------------------
+class UserMiniSerializers(serializers.modelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email']
+# ------------------------------------------------------------------------------
+# 2. EmployeeSerializer (የሰራተኛ መረጃ ማጣሪያ እና መቀየሪያ)
+# ----------------------------------------------
+ class EmployeeSerializer(serializers.ModelSerializer):
+    
