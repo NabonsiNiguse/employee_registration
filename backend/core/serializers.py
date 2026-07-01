@@ -14,4 +14,4 @@ class UserMiniSerializers(serializers.modelSerializer):
 # 2. EmployeeSerializer (የሰራተኛ መረጃ ማጣሪያ እና መቀየሪያ)
 # ----------------------------------------------
  class EmployeeSerializer(serializers.ModelSerializer):
-    
+    created_by_details = UserMiniSerializer(source='created_by', read_only=True)
