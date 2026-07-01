@@ -1,0 +1,3 @@
+# Serializers for the core appthise file data translation layer that serializes and deserializes data between complex data types (like Django models) and native Python data types, which can then be easily rendered into JSON or other content types. This is particularly useful for building RESTful APIs.
+# this file used to translate python objects in to json formats and vice versa
+from rest_fromework import serializers 
