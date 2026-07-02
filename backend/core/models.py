@@ -3,6 +3,8 @@ from django.contrib.auth.models import User # የተዘጋጀውን የአድሚ
 from django.utils import timezone
 from django.core.exceptions import ValidationError # 'exceptions' (በ 's') ተስተካክሏል
 
+
+
 # ------------------------------------------------------------------------------
 # 1. የሰራተኛ መዝገብ ሰንጠረዥ (Employee Table)
 # ------------------------------------------------------------------------------
@@ -19,10 +21,19 @@ class Employee(models.Model):
         return self.name
 
 
-# 💡 የቀን መመርመሪያ ህግ (ከክላስ ውጭ ነው የሚቀመጠው)
+#  የቀን መመርመሪያ ህግ (ከክላስ ውጭ ነው የሚቀመጠው)
 def validate_future_date(value):
     if value < timezone.now().date():
         raise ValidationError("Due date cannot be in the past.")
+
+# ==============================================================================
+# 1. CUSTOM QUERYSET (የዳታቤዝ ማጣሪያ ማሽን)
+# ==============================================================================
+ class TaskQueryset(models.Queryset):
+        def overdue(self):
+            return self.filter(due_date__lt=timezone.now().date()).exclude(status='completed')
+        def due_today(self):
+            return self.filter(due_date=timezone.now().date(), status='pending')
 
 
 # ------------------------------------------------------------------------------
