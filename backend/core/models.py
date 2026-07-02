@@ -3,7 +3,10 @@ from django.contrib.auth.models import User # የተዘጋጀውን የአድሚ
 from django.utils import timezone
 from django.core.exceptions import ValidationError # 'exceptions' (በ 's') ተስተካክሏል
 
-
+# ==============================================================================
+# 2. ABSTRACT BASE MODEL (የፊልዶች የጋራ አባት)
+# ==============================================================================
+class 
 
 # ------------------------------------------------------------------------------
 # 1. የሰራተኛ መዝገብ ሰንጠረዥ (Employee Table)
