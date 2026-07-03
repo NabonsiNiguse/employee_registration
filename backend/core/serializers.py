@@ -12,7 +12,7 @@ class UserMiniSerializer(serializers.ModelSerializer):
 # 2. EmployeeSerializer
 class EmployeeSerializer(serializers.ModelSerializer):
     created_by_details = UserMiniSerializer(source='created_by', read_only=True)
-    # የ 'related_name' ስህተትን ለማስተካከል 'assigned_tasks' ተጠቀመ
+    # የ 'related_name' 
     task_assigned_to_details = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
