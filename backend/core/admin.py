@@ -4,3 +4,4 @@ from .models import Employee, Task
 admin.site.register(Employee)
 admin.site.register(Task)
 admin.site.site_header = "Employee Management Admin"
+
