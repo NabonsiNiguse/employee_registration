@@ -6,4 +6,4 @@ from .serializers import EmployeeSerializer, TaskSerializer, UserMiniSerializer
   class EmployeeViewSet(viewSet.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-      
+    permission 
