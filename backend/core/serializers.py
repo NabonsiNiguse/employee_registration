@@ -5,8 +5,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
-
-
+  class AdvancedLoginserializer(serializers.Serializer):
+    email = sserializers.emailField(write_only=true)
+    
+      
 
 
 
