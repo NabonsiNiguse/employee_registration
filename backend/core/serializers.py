@@ -1,7 +1,14 @@
-from rest_framework import serializers 
-from django.contrib.auth.models import User
 from django.utils import timezone
 from .models import Employee, Task
+from rest_framework import serializers
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
+
+
+
 
 # ==============================================================================
 # 1. UserMiniSerializer: ለዩዘር መረጃ የሚያገለግል ቀለል ያለ ሴሪያላይዘር
