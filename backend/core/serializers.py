@@ -5,34 +5,44 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
-  class AdvancedLoginserializer(serializers.Serializer):
-    email = serializers.emailField(write_only=true)
-    name = serializers.CharField(write_only=true), style={'input_type': 'password', 'placeholder': 'Password'})
+# ==============================================================================
+# 0. AdvancedLoginSerializer: ለሎግ-ኢን ማጣሪያ እና ቶከን ማመንጫ
+# ==============================================================================
+class AdvancedLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField(write_only=True)
+    password = serializers.CharField(write_only=True, style={'input_type': 'password', 'placeholder': 'Password'})
       
-def validate(self, attrs):
+    def validate(self, attrs):
         email = attrs.get('email')
-        name = attrs.get('name')
-       # 1 Chack the email wheather it is valid  or not 
-        if not email or not name:
-            raise serializers.ValiationError('Email and name are required.')
+        password = attrs.get('password')
+        
+        # 1. ኢሜይል እና ፓስዎርድ መኖራቸውን ማረጋገጥ
+        if not email or not password:
+            raise serializers.ValidationError('Email and password are required.')
+        
+        # 2. ተጠቃሚውን በኢሜይል መፈለግ
         try:
-            user = User.object.get(email=email)
-        catch: User.DoesNotExist:
-            raise serializers.ValidationError('Invalid email or name.')
-        # check ghe password wheather it is correct or not
-        if user.check_password(password):
-            raise serializers.ValidationError('Invalid email or name.')
-        # check if the the user deactivate or banned from model 
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('Invalid email or password.')
+        
+        # 3. ፓስዎርዱ ስህተት መሆኑን ማረጋገጥ
+        if not user.check_password(password):
+            raise serializers.ValidationError('Invalid email or password.')
+        
+        # 4. አካውንቱ መታገዱን (Active አለመሆኑን) ማረጋገጥ
         if not user.is_active:
             raise serializers.ValidationError('User account is not active.')
-       refresh_token =RefreshToken.for_user(user)
-            return {
-                'refresh': str(refresh_token),
-                'access': str(refresh_token.access_token),
-                'username': user.username,
-                'email': user.email,
-                'message': 'Login successful.'
-            }
+            
+        # 5. ሁሉም ነገር ሰላም ከሆነ ቶከን ማመንጨት
+        refresh_token = RefreshToken.for_user(user)
+        return {
+            'refresh': str(refresh_token),
+            'access': str(refresh_token.access_token),
+            'username': user.username,
+            'email': user.email,
+            'message': 'Login successful.'
+        }
 
 
 # ==============================================================================
@@ -115,4 +125,3 @@ class TaskSerializer(serializers.ModelSerializer):
         if title.lower() == description.lower():
             raise serializers.ValidationError("ርዕስ እና ማብራሪያ ተመሳሳይ መሆን አይችሉም።")
         return data
-        
