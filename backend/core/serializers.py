@@ -6,10 +6,33 @@ from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 
   class AdvancedLoginserializer(serializers.Serializer):
-    email = sserializers.emailField(write_only=true)
-    
+    email = serializers.emailField(write_only=true)
+    name = serializers.CharField(write_only=true), style={'input_type': 'password', 'placeholder': 'Password'})
       
-
+def validate(self, attrs):
+        email = attrs.get('email')
+        name = attrs.get('name')
+       # 1 Chack the email wheather it is valid  or not 
+        if not email or not name:
+            raise serializers.ValiationError('Email and name are required.')
+        try:
+            user = User.object.get(email=email)
+        catch: User.DoesNotExist:
+            raise serializers.ValidationError('Invalid email or name.')
+        # check ghe password wheather it is correct or not
+        if user.check_password(password):
+            raise serializers.ValidationError('Invalid email or name.')
+        # check if the the user deactivate or banned from model 
+        if not user.is_active:
+            raise serializers.ValidationError('User account is not active.')
+       refresh_token =RefreshToken.for_user(user)
+            return {
+                'refresh': str(refresh_token),
+                'access': str(refresh_token.access_token),
+                'username': user.username,
+                'email': user.email,
+                'message': 'Login successful.'
+            }
 
 
 # ==============================================================================
