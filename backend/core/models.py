@@ -31,6 +31,7 @@ class TimeStampedModel(models.Model): # 'models' በ 's' ተስተካክሏል
 # 3. የሰራተኛ መዝገብ ሰንጠረዥ (Employee Table)
 # ------------------------------------------------------------------------------
 class Employee(TimeStampedModel): # 'TimeStampedModel'ን እንዲወርስ ተደርጓል!
+    user = models.oneToOneFIeld(User, on_delete=models.CASCAD, null=True, related_name='employee-profile')
     name = models.CharField(max_length=200, db_index=True)
     email = models.EmailField(unique=True)
     department = models.CharField(max_length=100)
